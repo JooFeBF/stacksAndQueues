@@ -44,22 +44,22 @@ void imprimir(struct nodo *raiz)
 	printf("\n");
 }
 
-//int extraer()
-//{
-//   	if(raiz==NULL)
-//   	{
-//   		printf("La pila está vacía.\n");
-//   		return -1;
-//   }
-//	else
-//	{
-//        int informacion = raiz->info;
-//        struct nodo *bor = raiz;
-//        raiz = raiz->sig;
-//        free(bor);
-//        return informacion;
-//    }
-//}
+int extraer(struct nodo **raiz)
+{
+   	if(raiz==NULL)
+   	{
+   		printf("La pila está vacía.\n");
+   		return -1;
+   }
+	else
+	{
+        int informacion = (*raiz)->info;
+        struct nodo *bor = raiz;
+        *raiz = (*raiz)->sig;
+        free(bor);
+        return informacion;
+    }
+}
 //
 //void liberar()
 //{
