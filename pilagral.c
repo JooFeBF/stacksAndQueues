@@ -26,27 +26,9 @@ void insertar(int x, struct nodo **raiz)
     }
 }
 
-void imprimir(struct nodo *raiz)
-{
-    struct nodo *reco=raiz;
-   	if(raiz==NULL)
-   		printf("La pila está vacía.\n");
-	else
-	{
-	    printf("Impresion de Lista tipo pila...\n");
-	    while (reco!=NULL)
-	    {
-	        printf("%i ",reco->info);
-	        printf("\n");
-	        reco=reco->sig;
-	    }
-	}
-	printf("\n");
-}
-
 int extraer(struct nodo **raiz)
 {
-   	if(raiz==NULL)
+   	if(*raiz==NULL)
    	{
    		printf("La pila está vacía.\n");
    		return -1;
@@ -54,12 +36,32 @@ int extraer(struct nodo **raiz)
 	else
 	{
         int informacion = (*raiz)->info;
-        struct nodo *bor = raiz;
+        struct nodo *bor = *raiz;
         *raiz = (*raiz)->sig;
         free(bor);
         return informacion;
     }
 }
+void imprimir(struct nodo **raiz)
+{
+    int info = extraer(raiz);
+    if (*raiz == NULL) {
+        printf("%d\n", info);
+        return;
+    }
+    imprimir(raiz);
+    printf("%d\n", info);
+    insertar(info, raiz);
+}
+
+int contar (struct nodo **raiz) {
+  if (*raiz == NULL) return 0;
+    int info = extraer(raiz);
+    int count = contar(raiz);
+    insertar(info, raiz);
+    return count + 1;
+}
+
 //
 //void liberar()
 //{
@@ -104,26 +106,38 @@ int extraer(struct nodo **raiz)
 
 int main()
 {
-	struct nodo *raiz = NULL;
-    insertar(10, &raiz);
-    insertar(40, &raiz);
-    //insertar(3);
-    //insertar(20);
-    //insertar(50);
+  int opt = 0;
+  struct nodo *raiz = NULL;
 
-    imprimir(raiz);
-//    printf("Extraemos un nodo de la pila: %i\n",extraer());
-//    imprimir();
-//    printf("La cantidad de nodos de la pila es: %i\n",cantidad());
-//    while (vacia() == 0)
-//	{
-//     printf("Extraemos un nodo de la pila: %i\n",extraer());
-//    }
-////		extraer(); 
-////   	liberar();
-//	getch();
-////	printf("%d",cantidad());
-//	imprimir();   
-//    getch();
-    return 0;
+    while (opt != 5) {
+        printf("1. Insertar\n");
+        printf("2. Extraer\n");
+        printf("3. Imprimir\n");
+        printf("4. Contar\n");
+        printf("5. Salir\n");
+        printf("Opción: ");
+        scanf("%d", &opt);
+        switch (opt) {
+        case 1:
+            printf("Número a insertar: ");
+            int num;
+            scanf("%d", &num);
+            insertar(num, &raiz);
+            break;
+        case 2:
+            printf("Número extraído: %d\n", extraer(&raiz));
+            break;
+        case 3:
+            imprimir(&raiz);
+            break;
+        case 4:
+            printf("Cantidad de elementos: %d\n", contar(&raiz));
+            break;
+        case 5:
+            break;
+        default:
+            printf("Opción inválida\n");
+        }
+    }
+
 }
