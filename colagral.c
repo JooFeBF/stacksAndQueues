@@ -53,8 +53,8 @@ int extraer(struct nodo **raiz, struct nodo **fondo)
         struct nodo *bor = *raiz;
         if (*raiz == *fondo)
         {
-            raiz = NULL;
-            fondo = NULL;
+            *raiz = NULL;
+            *fondo = NULL;
         }
         else
         {
@@ -88,6 +88,7 @@ void insertarN(int x, struct nodo **raiz, struct nodo **fondo, int n) {
 	while (!vacia(raiz) && i < n) {
 		int info = extraer(raiz, fondo);
 		insertar(info, &tempRaiz, &tempFondo);
+		printf("%d\n", i);
 		i++;
 	}
 
@@ -96,6 +97,7 @@ void insertarN(int x, struct nodo **raiz, struct nodo **fondo, int n) {
 
 	// Reinsert the removed elements back into the queue
 	while (!vacia(&tempRaiz)) {
+		printf("aaaaaa");
 		int info = extraer(&tempRaiz, &tempFondo);
 		insertar(info, raiz, fondo);
 	}
@@ -107,7 +109,7 @@ void extraerN(struct nodo **raiz, struct nodo **fondo, int n) {
     int i = 0;
 
     // Remove elements until reaching position n
-    while (!vacia(raiz) && i < n) {
+    while (!vacia(raiz) && i < n - 1) {
         int info = extraer(raiz, fondo);
         insertar(info, &tempRaiz, &tempFondo);
         i++;
@@ -144,11 +146,7 @@ int main()
 {
 	struct nodo *raiz=NULL;
 	struct nodo *fondo=NULL;
-	insertar(1, &raiz, &fondo);
-	insertar(2, &raiz, &fondo);
-	insertar(3, &raiz, &fondo);
-	insertarN(9, &raiz, &fondo, 1);
-	int opc,val;
+	 int opc,val;
 	do{
 	printf("\n============================================\n");
 	printf("1. Entra nodo a la cola...\n");
